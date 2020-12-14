@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/MOTHERPLOT_2.js"></script>
+        <script src="data/ROADS_3.js"></script>
+        <script src="data/POLYGONSUBDIVIIONPLOT_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[26.060613921476094,50.53209365346092],[26.111383506053937,50.60661745356918]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatImage_0');
+        map.getPane('pane_GoogleSatImage_0').style.zIndex = 400;
+        var layer_GoogleSatImage_0 = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatImage_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatImage_0;
+        map.addLayer(layer_GoogleSatImage_0);
+        map.createPane('pane_RVCommunityMasterPlan2_modified_1');
+        map.getPane('pane_RVCommunityMasterPlan2_modified_1').style.zIndex = 401;
+        var img_RVCommunityMasterPlan2_modified_1 = 'data/RVCommunityMasterPlan2_modified_1.png';
+        var img_bounds_RVCommunityMasterPlan2_modified_1 = [[26.0788785753861,50.55331512573255],[26.106672592211446,50.575733412458185]];
+        var layer_RVCommunityMasterPlan2_modified_1 = new L.imageOverlay(img_RVCommunityMasterPlan2_modified_1,
+                                              img_bounds_RVCommunityMasterPlan2_modified_1,
+                                              {pane: 'pane_RVCommunityMasterPlan2_modified_1'});
+        bounds_group.addLayer(layer_RVCommunityMasterPlan2_modified_1);
+        map.addLayer(layer_RVCommunityMasterPlan2_modified_1);
+        function pop_MOTHERPLOT_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">fid</th>\
+                        <td>' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_MOTHERPLOT_2_0() {
+            return {
+                pane: 'pane_MOTHERPLOT_2',
+                opacity: 1,
+                color: 'rgba(6,26,117,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_MOTHERPLOT_2');
+        map.getPane('pane_MOTHERPLOT_2').style.zIndex = 402;
+        map.getPane('pane_MOTHERPLOT_2').style['mix-blend-mode'] = 'normal';
+        var layer_MOTHERPLOT_2 = new L.geoJson(json_MOTHERPLOT_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_MOTHERPLOT_2',
+            layerName: 'layer_MOTHERPLOT_2',
+            pane: 'pane_MOTHERPLOT_2',
+            onEachFeature: pop_MOTHERPLOT_2,
+            style: style_MOTHERPLOT_2_0,
+        });
+        bounds_group.addLayer(layer_MOTHERPLOT_2);
+        map.addLayer(layer_MOTHERPLOT_2);
+        function pop_ROADS_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Layer</th>\
+                        <td>' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ROADS_3_0() {
+            return {
+                pane: 'pane_ROADS_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.667)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,221,221,0.667)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ROADS_3');
+        map.getPane('pane_ROADS_3').style.zIndex = 403;
+        map.getPane('pane_ROADS_3').style['mix-blend-mode'] = 'normal';
+        var layer_ROADS_3 = new L.geoJson(json_ROADS_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ROADS_3',
+            layerName: 'layer_ROADS_3',
+            pane: 'pane_ROADS_3',
+            onEachFeature: pop_ROADS_3,
+            style: style_ROADS_3_0,
+        });
+        bounds_group.addLayer(layer_ROADS_3);
+        map.addLayer(layer_ROADS_3);
+        function pop_POLYGONSUBDIVIIONPLOT_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Layer</th>\
+                        <td>' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA</th>\
+                        <td>' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_POLYGONSUBDIVIIONPLOT_4_0() {
+            return {
+                pane: 'pane_POLYGONSUBDIVIIONPLOT_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.667)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,0.667)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_POLYGONSUBDIVIIONPLOT_4');
+        map.getPane('pane_POLYGONSUBDIVIIONPLOT_4').style.zIndex = 404;
+        map.getPane('pane_POLYGONSUBDIVIIONPLOT_4').style['mix-blend-mode'] = 'normal';
+        var layer_POLYGONSUBDIVIIONPLOT_4 = new L.geoJson(json_POLYGONSUBDIVIIONPLOT_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_POLYGONSUBDIVIIONPLOT_4',
+            layerName: 'layer_POLYGONSUBDIVIIONPLOT_4',
+            pane: 'pane_POLYGONSUBDIVIIONPLOT_4',
+            onEachFeature: pop_POLYGONSUBDIVIIONPLOT_4,
+            style: style_POLYGONSUBDIVIIONPLOT_4_0,
+        });
+        bounds_group.addLayer(layer_POLYGONSUBDIVIIONPLOT_4);
+        map.addLayer(layer_POLYGONSUBDIVIIONPLOT_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/POLYGONSUBDIVIIONPLOT_4.png" /> POLYGON SUBDIVIION PLOT': layer_POLYGONSUBDIVIIONPLOT_4,'<img src="legend/ROADS_3.png" /> ROADS': layer_ROADS_3,'<img src="legend/MOTHERPLOT_2.png" /> MOTHER PLOT': layer_MOTHERPLOT_2,"RV Community Master Plan (2)_modified": layer_RVCommunityMasterPlan2_modified_1,"Google Sat Image": layer_GoogleSatImage_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
